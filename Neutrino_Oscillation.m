@@ -1,4 +1,4 @@
-addpath(genpath('Calculations\'));
-addpath(genpath('GUI\'));
+addpath(genpath('Calculations'));
+addpath(genpath('GUI'));
 
 GUI_v1_08;
