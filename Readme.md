@@ -8,3 +8,7 @@ Collaborators: Prof. Anthony Mann (Theory)
 
 
 Technologies: MATLAB, MATLAB GUIDE
+
+Usage
+-------
+Run Neutrino_Oscillation.m function. It will add necessary directories and runs the latest version of the GUI.
