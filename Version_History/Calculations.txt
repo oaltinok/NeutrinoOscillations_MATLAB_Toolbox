@@ -1,5 +1,15 @@
 Version Changes:
 __________________________________________________________________
+v1_17
+- Even more modular design
+- GUI Function revised:
+- Tidied GUI Function
+- Removed Automatic Comments
+__________________________________________________________________
+v1_16
+- Major Update: Total Package Revised for a Modular Design
+- Minor GUI Update:
+__________________________________________________________________
 v1_15
 - Exact nu_mu to nu_mu Implemented
 __________________________________________________________________

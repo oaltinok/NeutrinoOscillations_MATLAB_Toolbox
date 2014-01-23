@@ -1,5 +1,9 @@
 Version Changes:
 __________________________________________________________________
+v1_09
+- Function Improved with Modular Design
+- Easier to read and modify
+__________________________________________________________________
 v1_06
 - All Epsilons Added to the interface
 - "Hold on" Button Added
