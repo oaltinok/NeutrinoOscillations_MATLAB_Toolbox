@@ -1,35 +1,35 @@
-function varargout = GUI_v1_08(varargin)
-% GUI_V1_08 MATLAB code for GUI_v1_08.fig
-%      GUI_V1_08, by itself, creates a new GUI_V1_08 or raises the existing
+function varargout = GUI_v1_09(varargin)
+% GUI_V1_09 MATLAB code for GUI_v1_09.fig
+%      GUI_V1_09, by itself, creates a new GUI_V1_09 or raises the existing
 %      singleton*.
 %
-%      H = GUI_V1_08 returns the handle to a new GUI_V1_08 or the handle to
+%      H = GUI_V1_09 returns the handle to a new GUI_V1_09 or the handle to
 %      the existing singleton*.
 %
-%      GUI_V1_08('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in GUI_V1_08.M with the given input arguments.
+%      GUI_V1_09('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in GUI_V1_09.M with the given input arguments.
 %
-%      GUI_V1_08('Property','Value',...) creates a new GUI_V1_08 or raises the
+%      GUI_V1_09('Property','Value',...) creates a new GUI_V1_09 or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before GUI_v1_08_OpeningFcn gets called.  An
+%      applied to the GUI before GUI_v1_09_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to GUI_v1_08_OpeningFcn via varargin.
+%      stop.  All inputs are passed to GUI_v1_09_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help GUI_v1_08
+% Edit the above text to modify the response to help GUI_v1_09
 
-% Last Modified by GUIDE v2.5 04-Oct-2012 23:37:22
+% Last Modified by GUIDE v2.5 22-Jan-2014 17:41:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @GUI_v1_08_OpeningFcn, ...
-                   'gui_OutputFcn',  @GUI_v1_08_OutputFcn, ...
+                   'gui_OpeningFcn', @GUI_v1_09_OpeningFcn, ...
+                   'gui_OutputFcn',  @GUI_v1_09_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -44,15 +44,15 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before GUI_v1_08 is made visible.
-function GUI_v1_08_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before GUI_v1_09 is made visible.
+function GUI_v1_09_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to GUI_v1_08 (see VARARGIN)
+% varargin   command line arguments to GUI_v1_09 (see VARARGIN)
 
-% Choose default command line output for GUI_v1_08
+% Choose default command line output for GUI_v1_09
 
 
 handles.output = hObject;
@@ -87,8 +87,6 @@ handles.eps_et_nsi=0;
 handles.eps_ee_nsi=0;
 handles.eps_tt_nsi=0;
 
-handles.delta_m31_input = 2.35;
-
 set(handles.panel_hierarchy, 'SelectedObject', handles.hierarchy_1);
 set(handles.panel_type, 'SelectedObject', handles.type_1);
 
@@ -103,12 +101,12 @@ handles.hold_button_check=0;
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes GUI_v1_08 wait for user response (see UIRESUME)
+% UIWAIT makes GUI_v1_09 wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = GUI_v1_08_OutputFcn(hObject, eventdata, handles) 
+function varargout = GUI_v1_09_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -118,13 +116,13 @@ function varargout = GUI_v1_08_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
-function edit3_Callback(hObject, eventdata, handles)
-% hObject    handle to edit3 (see GCBO)
+function edit_delta_dirac_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_delta_dirac (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit3 as text
-%        str2double(get(hObject,'String')) returns contents of edit3 as a double
+% Hints: get(hObject,'String') returns contents of edit_delta_dirac as text
+%        str2double(get(hObject,'String')) returns contents of edit_delta_dirac as a double
 dirac_delta=str2double(get(hObject,'String'));
 if isnan(dirac_delta)
     set(hObject, 'String', 0);
@@ -137,8 +135,8 @@ guidata(hObject,handles)
 
 
 % --- Executes during object creation, after setting all properties.
-function edit3_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit3 (see GCBO)
+function edit_delta_dirac_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_delta_dirac (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -196,14 +194,21 @@ function distance_box_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of distance_box as text
 %        str2double(get(hObject,'String')) returns contents of distance_box as a double
-distance=str2double(get(hObject,'String'));
+distance = str2double(get(hObject,'String'));
+
 if isnan(distance)
     set(hObject, 'String', 0);
     errordlg('Input must be a number','Error');
 end
-if distance<500
+
+if distance < 500
     set(hObject, 'String', 0);
     errordlg('Input must be higher than 500km','Error');
+end
+
+if distance > 12500
+    set(hObject, 'String', 0);
+    errordlg('Input must be lower than 12500km','Error');
 end
 
 handles.distance = distance;
@@ -224,14 +229,15 @@ end
 
 
 
-function edit6_Callback(hObject, eventdata, handles)
-% hObject    handle to edit6 (see GCBO)
+function edit_delta_NSI_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_delta_NSI (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit6 as text
-%        str2double(get(hObject,'String')) returns contents of edit6 as a double
+% Hints: get(hObject,'String') returns contents of edit_delta_NSI as text
+%        str2double(get(hObject,'String')) returns contents of edit_delta_NSI as a double
 NSI_delta=str2double(get(hObject,'String'));
+
 if isnan(NSI_delta)
     set(hObject, 'String', 0);
     errordlg('Input must be a number','Error');
@@ -243,8 +249,8 @@ guidata(hObject,handles)
 
 
 % --- Executes during object creation, after setting all properties.
-function edit6_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit6 (see GCBO)
+function edit_delta_NSI_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_delta_NSI (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -638,13 +644,18 @@ else
 end
 
 
-handles.check_par = M_E_Eps_Total(handles.distance,handles.dirac_delta,handles.NSI_delta,...
-    handles.h1,handles.t1,...
+handles.check_par = M_E_Eps_Total(...
+    handles.distance,...
+    handles.dirac_delta,...
+    handles.NSI_delta,...
+    handles.h1,...
+    handles.t1,...
     handles.eps_et_nsi,...
     handles.eps_ee_nsi,...
     handles.eps_tt_nsi,...
-    handles.delta_m31_input,...
-    wb, handles.Plot_Color{handles.color_indice});
+    wb,...
+    handles.Plot_Color{handles.color_indice});
+
 close(wb);
 
 GUI_Parameters(handles.check_par);
@@ -669,13 +680,18 @@ else
     handles.color_indice = 1;
 end
 
-handles.check_par = M_M_Eps_Total(handles.distance,handles.dirac_delta,handles.NSI_delta,...
-    handles.h1,handles.t1,...
+handles.check_par = M_M_Eps_Total(...
+    handles.distance,...
+    handles.dirac_delta,...
+    handles.NSI_delta,...
+    handles.h1,...
+    handles.t1,...
     handles.eps_et_nsi,...
     handles.eps_ee_nsi,...
     handles.eps_tt_nsi,...
-    handles.delta_m31_input,...
-    wb, handles.Plot_Color{handles.color_indice});
+    wb,...
+    handles.Plot_Color{handles.color_indice});
+
 close(wb);
 
 GUI_Parameters(handles.check_par);
@@ -736,8 +752,10 @@ function Eps_et_Callback(hObject, eventdata, handles)
     close(wb);
     
     GUI_Parameters(handles.check_par);
+
     
-    % --- Executes on button press in button_minos_flux.
+    
+% --- Executes on button press in button_minos_flux.
 function button_minos_flux_Callback(hObject, eventdata, handles)
 % hObject    handle to button_minos_flux (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -763,6 +781,7 @@ handles.check_par = Event_Rate_MINOS(handles.dirac_delta,handles.NSI_delta,...
 close(wb);
 
 GUI_Parameters(handles.check_par);
+
 guidata(hObject,handles)
     
 % --- Executes on button press in button_event_rate_nova.
@@ -770,7 +789,9 @@ function button_event_rate_nova_Callback(hObject, eventdata, handles)
 % hObject    handle to button_event_rate_nova (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
 wb=waitbar(0,'');
+
 axes(handles.axes1);
 
 if handles.color_check == 1
@@ -803,7 +824,9 @@ function toogglebutton_hold_button_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of toogglebutton_hold_button
+
 button_state = get(hObject,'Value');
+
 if button_state == get(hObject,'Max')
 	% Toggle button is pressed, take appropriate action
     hold on
@@ -814,7 +837,9 @@ elseif button_state == get(hObject,'Min')
    hold off
    handles.color_check = 0;
 end
+
 guidata(hObject,handles)
+
 
 
 % --- Executes on key press with focus on toogglebutton_hold_button and none of its controls.
@@ -837,31 +862,3 @@ saveas(handles.axes1,'output','png');
 guidata(hObject,handles)
 
 
-
-function edit_delta_m31_Callback(hObject, eventdata, handles)
-% hObject    handle to edit_delta_m31 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit_delta_m31 as text
-%        str2double(get(hObject,'String')) returns contents of edit_delta_m31 as a double
-delta_m31_input=str2double(get(hObject,'String'));
-if isnan(delta_m31_input)
-    set(hObject, 'String', 0);
-    errordlg('Input must be a number','Error');
-end
-
-handles.delta_m31_input = delta_m31_input;
-guidata(hObject,handles)
-
-% --- Executes during object creation, after setting all properties.
-function edit_delta_m31_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit_delta_m31 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
