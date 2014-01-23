@@ -1,4 +1,4 @@
-function [check_par] = Get_Probability(...
+function [check_par] = Plot_Request(...
     distance,...
     dirac_delta,...
     NSI_delta,...
@@ -8,24 +8,59 @@ function [check_par] = Get_Probability(...
     eps_ee_nsi,...
     eps_tt_nsi,...
     wb,...
-    finalStateParticle,...
+    experiment,...
+    isEventRate,...
     Plot_Color)
-%% Get_Probability()
-% Called by GUI buttons to calculate the Probability
+%% Plot_Request()
+% Called by GUI buttons to Plot requested result
+% isEventRate value is used to select between Probability vs Event Rate
+% Calculations
 % For the Probability Calculation Function uses:
 % 1) Common Constants
 % 2) User Inputs from GUI
 % 3) Uses finalStateParticle variable to calculate different probabilities
 %       finalStateParticle = 1 for Electron (Muon to Electron)
 %       finalStateParticle = 0 for Muon (Muon to Muon)
+%
+% For the Event Calculation Function uses in addition to 
+% Probability Calculations:
+% 1) Reads Flux Files and sets the distance parameter specific to the Experiment
+%       experiment = 1 for MINOS
+%       experiment = 0 for NOVA
+% 2) Calculates expected number of Neutrinos using Flux Values and Detector
+% Efficiency
+
+
+%% Read Flux Filex and Set Distance if isEventRate == 1
+if isEventRate == 1
+    waitbar(0.2,wb,'Reading Flux Files')
+    
+    [Flux_Energy_nu_mu_10,n_nu_mu_10] = Read_Flux_Files(experiment);
+    
+    % experiment = 1 for MINOS
+    % experiment = 0 for NOVA
+    if experiment == 1
+        distance = 735;
+    else
+        distance = 810;
+    end
+    
+end
+
+
 
 %% Initialize Variables
 % Load Common Constants
 Get_Constants;
 
 % Set Energy Range
-% Energy is ranging from [0,10] GeV
-Energy = linspace(0.4,10,1000);
+if isEventRate == 1
+    % For Event Rate Energy is calculated from Flux Files
+    Energy = Flux_Energy_nu_mu_10;
+else
+    % For Probability Energy is ranging from [0,10] GeV
+    Energy = linspace(0.4,10,1000);
+end
 
 % Get Density
 rho = Get_Density(distance);
@@ -61,13 +96,14 @@ else
 end
 
 %% Calculate the Probability
-%       finalStateParticle = 1 for Electron (Muon to Electron)
-%       finalStateParticle = 0 for Muon (Muon to Muon)
-if finalStateParticle == 1
-    M_E_Probability_Calculations;
-else
-    M_M_Probability_Calculations;
+M_E_Probability_Calculations;
+
+if isEventRate == 1
+    % Find expected number of Neutrinos using Flux Values and Detector Efficiency
+    efficiency = 0.69;
+    N_Neutrinos = Probability .* n_nu_mu_10 .* efficiency;
 end
+
 
 %% Fill check_par variable
 check_par{1} = sinsq_2theta13;
@@ -85,17 +121,32 @@ check_par{10} = epsilon_tt;
 
 check_par{11} = distance;
 
-% Message to be shown on the output
-check_par{12} = ' ';
+% Final Settings
+if isEventRate == 1
+    % Message to be shown on the output
+    if experiment == 1
+        check_par{12} = 'Warning! Default Distance 735km';
+    else
+        check_par{12} = 'Warning! Default Distance 810km';
+    end
+    % Set yVector for Event Rate
+    yVector = N_Neutrinos;
+else
+    % Message to be shown on the output
+    check_par{12} = ' ';
+    
+    % Set yVector for Probability
+    yVector = Probability;
+end
 
 % Update waitbar
 waitbar(0.95,wb,'Generating Plot')
 
 %% Plot Probability
-plot1=plot(Energy,Probability,Plot_Color);
+plot1 = plot(Energy,yVector,Plot_Color);
 xlim([0.7 10])
 xlabel('Energy[GeV]')
-ylabel('Appearance Probability')
+ylabel(' To be Modified')
 
 % Create legend with using User Input
 legend_plot = sprintf('%s, %s',legend_type,legend_mass);
@@ -106,5 +157,7 @@ set(legend1,'Interpreter','latex','FontSize',12);
 
 
 end
+
+
 
 

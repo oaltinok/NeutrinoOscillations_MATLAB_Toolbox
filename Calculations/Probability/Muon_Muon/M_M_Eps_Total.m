@@ -19,7 +19,7 @@ Get_Constants;
 Energy = linspace(0.4,10,1000);
 
 % Get Density
-rho=get_density(distance);
+rho = get_density(distance);
 
 % Assign epsilon values
 epsilon_et = eps_et_nsi;
@@ -39,15 +39,15 @@ else
 end
 
 % Particle Type:  Neutrino = 1, Anti-Neutrino = 0
-if t1==1
+if t1 == 1
     ve = 1/1900;
-    delta=dirac_delta;
-    delta_m=NSI_delta;
+    delta = dirac_delta;
+    delta_m = NSI_delta;
     legend_type = sprintf('$\\mathcal{P}(\\nu_{\\mu} \\rightarrow \\nu_{\\mu})$');
 else
     ve = -1/1900;
-    delta=-dirac_delta;
-    delta_m=-NSI_delta;
+    delta = -dirac_delta;
+    delta_m = -NSI_delta;
     legend_type = sprintf('$\\mathcal{P}(\\bar{\\nu}_{\\mu} \\rightarrow \\bar{\\nu}_{\\mu})$');
 end
 

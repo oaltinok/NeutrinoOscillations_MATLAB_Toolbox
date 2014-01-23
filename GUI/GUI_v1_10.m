@@ -1,12 +1,12 @@
-function varargout = GUI_v1_09(varargin)
-%% GUI_V1_09 MATLAB code for GUI_v1_09.fig
+function varargout = GUI_v1_10(varargin)
+%% GUI_V1_10 MATLAB code for GUI_v1_10.fig
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
     'gui_Singleton',  gui_Singleton, ...
-    'gui_OpeningFcn', @GUI_v1_09_OpeningFcn, ...
-    'gui_OutputFcn',  @GUI_v1_09_OutputFcn, ...
+    'gui_OpeningFcn', @GUI_v1_10_OpeningFcn, ...
+    'gui_OutputFcn',  @GUI_v1_10_OutputFcn, ...
     'gui_LayoutFcn',  [] , ...
     'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -23,8 +23,8 @@ end
 
 %% Main Window Functions
 
-% --- Executes just before GUI_v1_09 is made visible.
-function GUI_v1_09_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before GUI_v1_10 is made visible.
+function GUI_v1_10_OpeningFcn(hObject, eventdata, handles, varargin)
 
 handles.output = hObject;
 
@@ -79,13 +79,13 @@ handles.hold_button_check = 0;
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes GUI_v1_09 wait for user response (see UIRESUME)
+% UIWAIT makes GUI_v1_10 wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 end
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = GUI_v1_09_OutputFcn(hObject, eventdata, handles)
+function varargout = GUI_v1_10_OutputFcn(hObject, eventdata, handles)
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -243,9 +243,11 @@ end
 
 %% CallBack Functions
 % Hints: get(hObject,'String') returns contents of edit_delta_dirac as text
-%        str2double(get(hObject,'String')) returns contents of edit_delta_dirac as a double
+%        str2double(get(hObject,'String')) returns contents of Text Box as a double
 
 function distance_box_Callback(hObject, eventdata, handles)
+    
+    distance = str2double(get(hObject,'String'));
 
     if isnan(distance)
         set(hObject, 'String', 0);
@@ -263,6 +265,7 @@ function distance_box_Callback(hObject, eventdata, handles)
     end
 
     handles.distance = distance;
+    
     guidata(hObject,handles)
 
 end
@@ -504,7 +507,7 @@ end
 % Probability: Muon - Electron
 function M_E_NSI_Probability_Callback(hObject, eventdata, handles)
 
-wb=waitbar(0,'');
+wb = waitbar(0,'');
 axes(handles.axes1);
 
 if handles.color_check == 1
@@ -517,9 +520,10 @@ else
     handles.color_indice = 1;
 end
 
-finalStateParticle = 1;
+isEventRate = 0;
+experiment = 0;
 
-handles.check_par = Get_Probability(...
+handles.check_par = Plot_Request(...
     handles.distance,...
     handles.dirac_delta,...
     handles.NSI_delta,...
@@ -529,44 +533,8 @@ handles.check_par = Get_Probability(...
     handles.eps_ee_nsi,...
     handles.eps_tt_nsi,...
     wb,...
-    finalStateParticle,...
-    handles.Plot_Color{handles.color_indice});
-
-close(wb);
-
-GUI_Parameters(handles.check_par);
-guidata(hObject,handles)
-end
-
-% Probability: Muon - Muon
-function M_M_NSI_Probability_Callback(hObject, eventdata, handles)
-
-wb=waitbar(0,'');
-axes(handles.axes1);
-
-if handles.color_check == 1
-    if handles.color_indice < handles.color_indice_max
-        handles.color_indice = handles.color_indice + 1;
-    else
-        handles.color_indice = 1;
-    end
-else
-    handles.color_indice = 1;
-end
-
-finalStateParticle = 0;
-
-handles.check_par = Get_Probability(...
-    handles.distance,...
-    handles.dirac_delta,...
-    handles.NSI_delta,...
-    handles.h1,...
-    handles.t1,...
-    handles.eps_et_nsi,...
-    handles.eps_ee_nsi,...
-    handles.eps_tt_nsi,...
-    wb,...
-    finalStateParticle,...
+    experiment,...
+    isEventRate,...
     handles.Plot_Color{handles.color_indice});
 
 close(wb);
@@ -660,9 +628,11 @@ else
     handles.color_indice = 1;
 end
 
+isEventRate = 1;
 experiment = 1;
 
-handles.check_par = Get_EventRate(...
+handles.check_par = Plot_Request(...
+    handles.distance,...
     handles.dirac_delta,...
     handles.NSI_delta,...
     handles.h1,...
@@ -672,6 +642,7 @@ handles.check_par = Get_EventRate(...
     handles.eps_tt_nsi,...
     wb,...
     experiment,...
+    isEventRate,...
     handles.Plot_Color{handles.color_indice});
 
 close(wb);
@@ -698,9 +669,11 @@ else
     handles.color_indice = 1;
 end
 
+isEventRate = 1;
 experiment = 0;
 
-handles.check_par = Get_EventRate(...
+handles.check_par = Plot_Request(...
+    handles.distance,...
     handles.dirac_delta,...
     handles.NSI_delta,...
     handles.h1,...
@@ -710,6 +683,7 @@ handles.check_par = Get_EventRate(...
     handles.eps_tt_nsi,...
     wb,...
     experiment,...
+    isEventRate,...
     handles.Plot_Color{handles.color_indice});
 
 close(wb);
@@ -750,6 +724,3 @@ function toogglebutton_hold_button_KeyPressFcn(hObject, eventdata, handles)
 %	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
 % handles    structure with handles and user data (see GUIDATA)
 end
-
-
-
