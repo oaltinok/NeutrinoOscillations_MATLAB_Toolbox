@@ -1,6 +1,8 @@
 function [Flux_Energy_nu_mu_10,n_nu_mu_10] = Read_Flux_Files(experiment)
 
 % Reading Flux File
+% experiment = 1 for MINOS
+% experiment = 0 for NOVA
 if experiment == 1
     Flux_Matrix_nu_mu = load('FluxFiles/le-1000-0.txt');
 else

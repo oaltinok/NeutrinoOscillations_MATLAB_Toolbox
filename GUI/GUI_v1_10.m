@@ -73,8 +73,20 @@ handles.h2 = 0;
 handles.t1 = 1;
 handles.t2 = 0;
 
+% Experiment
+handles.experiment = 0;
+
+% Calculation Type
+handles.isEventRate = 0;
+
 % Default Hold Button
 handles.hold_button_check = 0;
+
+% Read Flux Files Once when the GUI Starts
+% experiment = 1 for MINOS
+% experiment = 0 for NOVA
+[handles.Flux_Energy_MINOS,handles.n_nu_mu_10_MINOS] = Read_Flux_Files(1);
+[handles.Flux_Energy_NOVA,handles.n_nu_mu_10_NOVA] = Read_Flux_Files(0);
 
 % Update handles structure
 guidata(hObject, handles);
@@ -93,150 +105,6 @@ function varargout = GUI_v1_10_OutputFcn(hObject, eventdata, handles)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
-end
-
-%------------------------------------------------------------------------
-% Variable Text Boxes
-%------------------------------------------------------------------------
-%% Create Functions
-% --- Distance
-function distance_box_CreateFcn(hObject, eventdata, handles)
-
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-end
-
-% --- Dirac Delta
-function edit_delta_dirac_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    
-    end
-    
-end
-
-% --- NSI Delta
-function edit_delta_NSI_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-    
-end
-
-%% Epsilon Range
-% --- Epsilon et_min
-function edit_eps_et_min_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-% --- Epsilon et_max
-function edit_eps_et_max_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-% --- Epsilon et_inc
-function edit_eps_et_inc_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-% --- Epsilon tt_min
-function edit_eps_tt_min_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-% --- Epsilon tt_max
-function edit_eps_tt_max_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-% --- Epsilon tt_inc
-function edit_eps_tt_inc_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-    
-end
-
-
-% --- Epsilon ee_min
-function edit_eps_ee_min_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-% --- Epsilon ee_max
-function edit_eps_ee_max_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-% --- Epsilon ee_inc
-function edit_eps_ee_inc_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-%% Epsilon Single
-
-% --- Epsilon ee_nsi
-function eps_ee_nsi_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-% --- Epsilon et_nsi
-function eps_et_nsi_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
-end
-
-% --- Epsilon tt_nsi
-function eps_tt_nsi_CreateFcn(hObject, eventdata, handles)
-
-    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-        set(hObject,'BackgroundColor','white');
-    end
-
 end
 
 
@@ -504,12 +372,16 @@ end
 %------------------------------------------------------------------------
 % --- Executes on button press
 
-% Probability: Muon - Electron
-function M_E_NSI_Probability_Callback(hObject, eventdata, handles)
+% Main function controlling the Calculations and Plotting
+function mainFunc(hObject,handles)
 
+% Create waitbar
 wb = waitbar(0,'');
+
+% Create Axes
 axes(handles.axes1);
 
+% Control Plot Color if Hold ON Pressed
 if handles.color_check == 1
     if handles.color_indice < handles.color_indice_max
         handles.color_indice = handles.color_indice + 1;
@@ -520,28 +392,75 @@ else
     handles.color_indice = 1;
 end
 
-isEventRate = 0;
-experiment = 0;
-
+% Plot Result with given parameters
 handles.check_par = Plot_Request(...
-    handles.distance,...
-    handles.dirac_delta,...
-    handles.NSI_delta,...
-    handles.h1,...
-    handles.t1,...
-    handles.eps_et_nsi,...
-    handles.eps_ee_nsi,...
-    handles.eps_tt_nsi,...
-    wb,...
-    experiment,...
-    isEventRate,...
-    handles.Plot_Color{handles.color_indice});
+    handles,...
+    wb);
 
+
+% Close Waitbar
 close(wb);
 
+% Call GUI_Parameters Window
 GUI_Parameters(handles.check_par);
-guidata(hObject,handles)
+
+% Update handles 
+guidata(hObject,handles);
+
 end
+
+
+% Probability: Muon - Electron
+function M_E_NSI_Probability_Callback(hObject, eventdata, handles)
+
+% Set Event Rate and Experiment Parameters
+handles.isEventRate = 0;
+handles.experiment = 0;
+
+% Update handles 
+guidata(hObject,handles);
+
+    
+% Call Main Funct
+mainFunc(hObject,handles);
+
+
+end
+
+% --- Event Rate: MINOS
+function button_minos_flux_Callback(hObject, eventdata, handles)
+
+% Set Event Rate and Experiment Parameters
+handles.isEventRate = 1;
+handles.experiment = 1;
+
+% Update handles 
+guidata(hObject,handles);
+
+% Call Main Funct
+mainFunc(hObject,handles);
+
+
+
+end
+
+% --- Event Rate: NOVA
+function button_event_rate_nova_Callback(hObject, eventdata, handles)
+
+% Set Event Rate and Experiment Parameters
+handles.isEventRate = 1;
+handles.experiment = 0;
+
+% Update handles 
+guidata(hObject,handles);
+
+% Call Main Funct
+mainFunc(hObject,handles);
+
+
+
+end
+
 
 % --- Probability Eps_tt Range
 function Eps_tt_Callback(hObject, eventdata, handles)
@@ -612,87 +531,7 @@ GUI_Parameters(handles.check_par);
 end
 
 
-% --- Event Rate: MINOS
-function button_minos_flux_Callback(hObject, eventdata, handles)
 
-wb=waitbar(0,'');
-axes(handles.axes1);
-
-if handles.color_check == 1
-    if handles.color_indice < handles.color_indice_max
-        handles.color_indice = handles.color_indice + 1;
-    else
-        handles.color_indice = 1;
-    end
-else
-    handles.color_indice = 1;
-end
-
-isEventRate = 1;
-experiment = 1;
-
-handles.check_par = Plot_Request(...
-    handles.distance,...
-    handles.dirac_delta,...
-    handles.NSI_delta,...
-    handles.h1,...
-    handles.t1,...
-    handles.eps_et_nsi,...
-    handles.eps_ee_nsi,...
-    handles.eps_tt_nsi,...
-    wb,...
-    experiment,...
-    isEventRate,...
-    handles.Plot_Color{handles.color_indice});
-
-close(wb);
-
-GUI_Parameters(handles.check_par);
-
-guidata(hObject,handles)
-end
-
-% --- Event Rate: NOVA
-function button_event_rate_nova_Callback(hObject, eventdata, handles)
-
-wb=waitbar(0,'');
-
-axes(handles.axes1);
-
-if handles.color_check == 1
-    if handles.color_indice < handles.color_indice_max
-        handles.color_indice = handles.color_indice + 1;
-    else
-        handles.color_indice = 1;
-    end
-else
-    handles.color_indice = 1;
-end
-
-isEventRate = 1;
-experiment = 0;
-
-handles.check_par = Plot_Request(...
-    handles.distance,...
-    handles.dirac_delta,...
-    handles.NSI_delta,...
-    handles.h1,...
-    handles.t1,...
-    handles.eps_et_nsi,...
-    handles.eps_ee_nsi,...
-    handles.eps_tt_nsi,...
-    wb,...
-    experiment,...
-    isEventRate,...
-    handles.Plot_Color{handles.color_indice});
-
-close(wb);
-
-GUI_Parameters(handles.check_par);
-
-guidata(hObject,handles)
-
-end
 
 % --- Hold On Button for Plots
 function toogglebutton_hold_button_Callback(hObject, eventdata, handles)
@@ -724,3 +563,150 @@ function toogglebutton_hold_button_KeyPressFcn(hObject, eventdata, handles)
 %	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
 % handles    structure with handles and user data (see GUIDATA)
 end
+
+
+
+%------------------------------------------------------------------------
+% Variable Text Boxes
+%------------------------------------------------------------------------
+%% Create Functions
+% --- Distance
+function distance_box_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+end
+
+% --- Dirac Delta
+function edit_delta_dirac_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    
+    end
+    
+end
+
+% --- NSI Delta
+function edit_delta_NSI_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+    
+end
+
+%% Epsilon Range
+% --- Epsilon et_min
+function edit_eps_et_min_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+% --- Epsilon et_max
+function edit_eps_et_max_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+% --- Epsilon et_inc
+function edit_eps_et_inc_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+% --- Epsilon tt_min
+function edit_eps_tt_min_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+% --- Epsilon tt_max
+function edit_eps_tt_max_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+% --- Epsilon tt_inc
+function edit_eps_tt_inc_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+    
+end
+
+
+% --- Epsilon ee_min
+function edit_eps_ee_min_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+% --- Epsilon ee_max
+function edit_eps_ee_max_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+% --- Epsilon ee_inc
+function edit_eps_ee_inc_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+%% Epsilon Single
+
+% --- Epsilon ee_nsi
+function eps_ee_nsi_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+% --- Epsilon et_nsi
+function eps_et_nsi_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
+% --- Epsilon tt_nsi
+function eps_tt_nsi_CreateFcn(hObject, eventdata, handles)
+
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
+
+end
+
