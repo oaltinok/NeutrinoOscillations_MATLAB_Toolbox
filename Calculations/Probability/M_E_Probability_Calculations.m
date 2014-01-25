@@ -3,15 +3,16 @@
 % Electron Neutrino Oscillation Probability
 
 
+
 %% Specific Variables
 % delta factors
 delta_plus = delta + delta_m; 
 
 % A variable with matter effect
 A = (ve .* Energy .* rho) ./ (2 .* 1.27 .* DELTA_m31_sq);
-A_prime = A .* (1 + epsilon_ee);
-A_dprime = A .* (1 + epsilon_ee - cos(theta23).^2 .* epsilon_tt);
-A_tprime = A .* (1 + epsilon_ee - (2.*sin(theta23).^2 - cos(theta23).^2) .* epsilon_tt);
+A_prime = A .* (1 + eps(1));
+A_dprime = A .* (1 + eps(1) - cos(theta23).^2 .* eps(3));
+A_tprime = A .* (1 + eps(1) - (2.*sin(theta23).^2 - cos(theta23).^2) .* eps(3));
 
 
 %% Other Common Factors
@@ -23,31 +24,31 @@ DELTA = 1.27.*DELTA_m31_sq.*distance ./ Energy;
 G_ll = ((1+A)+alpha_dprime);
 
 N_bar = sqrt((1-sin(theta12) .^2 .* alpha).^2+...
-    4.*sin_2theta13_mod.*cos(theta23).*epsilon_et.*A.*cos(delta + delta_m) + ...
-    4.* cos(theta23) .^2 .* (epsilon_et.*A) .^2 - ...
+    4.*sin_2theta13_mod.*cos(theta23).*eps(2).*A.*cos(delta + delta_m) + ...
+    4.* cos(theta23) .^2 .* (eps(2).*A) .^2 - ...
     2 .* cos_2theta13_mod .* A_dprime + A_dprime.^2);
 
 eta_bar = sqrt(alpha_prime .^2 - ...
-    4.*sin(theta23) .* cos(theta13) .* alpha_prime .* epsilon_et .* A .* cos(delta_m) + ...
-    4 .* sin(theta23) .^2 .* (epsilon_et .* A) .^ 2 + ...
-    2 .* sin(2*theta23) .* sin(theta13) .* alpha_prime .* epsilon_tt .* A .* cos(delta) + ...
-    sin(2*theta23) .^2 .* (epsilon_tt .* A) .^ 2);
+    4.*sin(theta23) .* cos(theta13) .* alpha_prime .* eps(2) .* A .* cos(delta_m) + ...
+    4 .* sin(theta23) .^2 .* (eps(2) .* A) .^ 2 + ...
+    2 .* sin(2*theta23) .* sin(theta13) .* alpha_prime .* eps(3) .* A .* cos(delta) + ...
+    sin(2*theta23) .^2 .* (eps(3) .* A) .^ 2);
 
 
 
 %% Complex Functions (f_bar = f_bar_0 + i f_bar_1 )
-f_bar_0 = sin_2theta13_mod + 2 .* cos(theta23) .* epsilon_et .* A .*cos(delta + delta_m);
-f_bar_1 = 2 .* cos(theta23) .* epsilon_et .* A .* sin(delta + delta_m);
+f_bar_0 = sin_2theta13_mod + 2 .* cos(theta23) .* eps(2) .* A .*cos(delta + delta_m);
+f_bar_1 = 2 .* cos(theta23) .* eps(2) .* A .* sin(delta + delta_m);
 
 f_bar = f_bar_0 + 1i .* f_bar_1; 
 
-r_bar_0 = cos(theta13) .* alpha_prime - 2 .* sin(theta23) .* epsilon_et .* A .* cos(delta_m);
-r_bar_1 = -2 .* sin(theta23) .* epsilon_et .* A .* sin(delta_m);
+r_bar_0 = cos(theta13) .* alpha_prime - 2 .* sin(theta23) .* eps(2) .* A .* cos(delta_m);
+r_bar_1 = -2 .* sin(theta23) .* eps(2) .* A .* sin(delta_m);
 
 r_bar = r_bar_0 + 1i .* r_bar_1; 
 
-b_bar_0 = sin(theta13) .* alpha_prime - sin(2*theta23) .* epsilon_tt .* A .* cos(delta);
-b_bar_1 = -sin(2*theta23) .* epsilon_tt .* A .* sin(delta);
+b_bar_0 = sin(theta13) .* alpha_prime - sin(2*theta23) .* eps(3) .* A .* cos(delta);
+b_bar_1 = -sin(2*theta23) .* eps(3) .* A .* sin(delta);
 
 b_bar = b_bar_0 + 1i .* b_bar_1; 
 

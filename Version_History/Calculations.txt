@@ -1,5 +1,12 @@
 Version Changes:
 __________________________________________________________________
+v1_20
+- Epsilon Range Function Revised 
+	- Epsilon Range Plotting combined with other button Calls
+	- Plot_Request function improved to control Eps Range Plots
+	- Variable Naming improved
+__________________________________________________________________
+
 v1_19
 - Muon Muon Survival Probability Calculations Removed
 	- M_M Probability uses simple theory than M_E

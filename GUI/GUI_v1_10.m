@@ -45,22 +45,28 @@ handles.dirac_delta = 0;
 handles.NSI_delta = 0;
 
 % Epsilon Range
-handles.edit_eps_et_min = -0.2;
-handles.edit_eps_et_max = 0.2;
-handles.edit_eps_et_inc = 0.1;
+handles.eps_min = zeros(1,3);
+for i = 1:3
+    handles.eps_min(i) = -0.2;
+end
 
-handles.edit_eps_ee_min = -0.2;
-handles.edit_eps_ee_max = 0.2;
-handles.edit_eps_ee_inc = 0.1;
+handles.eps_max = zeros(1,3);
+for i = 1:3
+    handles.eps_max(i) = 0.2;
+end
 
-handles.edit_eps_tt_min = -0.2;
-handles.edit_eps_tt_max = 0.2;
-handles.edit_eps_tt_inc = 0.1;
+handles.eps_inc = zeros(1,3);
+for i = 1:3
+    handles.eps_inc(i) = 0.1;
+end
+
 
 % Epsilon Single Value
-handles.eps_et_nsi = 0;
-handles.eps_ee_nsi = 0;
-handles.eps_tt_nsi = 0;
+handles.eps_nsi = zeros(1,3);
+for i = 1:3
+    handles.eps_nsi(i) = 0;
+end
+
 
 % Default hierarchy and type
 set(handles.panel_hierarchy, 'SelectedObject', handles.hierarchy_1);
@@ -78,6 +84,14 @@ handles.experiment = 0;
 
 % Calculation Type
 handles.isEventRate = 0;
+
+% Plottin is for a Range or Single
+handles.isRange = 0;
+% epsilon_ee = 1
+% epsilon_et = 2
+% epsilon_tt = 3
+handles.rangeEps = 0;
+
 
 % Default Hold Button
 handles.hold_button_check = 0;
@@ -177,7 +191,7 @@ function edit_eps_et_min_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.edit_eps_et_min = eps_et_min;
+    handles.eps_min(2) = eps_et_min;
     guidata(hObject,handles)
 
 end
@@ -191,7 +205,7 @@ function edit_eps_et_max_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.edit_eps_et_max = eps_et_max;
+    handles.eps_max(2) = eps_et_max;
     guidata(hObject,handles)
 
 end
@@ -205,7 +219,7 @@ function edit_eps_et_inc_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.edit_eps_et_inc = eps_et_inc;
+    handles.eps_inc(2) = eps_et_inc;
     guidata(hObject,handles)
 
 end
@@ -219,7 +233,7 @@ function edit_eps_tt_min_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.edit_eps_tt_min = eps_tt_min;
+    handles.eps_min(3) = eps_tt_min;
     guidata(hObject,handles)
 
 end
@@ -232,7 +246,7 @@ function edit_eps_tt_max_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.edit_eps_tt_max = eps_tt_max;
+    handles.eps_max(3) = eps_tt_max;
     guidata(hObject,handles)
 
 end
@@ -245,7 +259,7 @@ function edit_eps_tt_inc_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.edit_eps_tt_inc = eps_tt_inc;
+    handles.eps_inc(3) = eps_tt_inc;
     guidata(hObject,handles)
 
 end
@@ -258,7 +272,7 @@ function edit_eps_ee_min_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.edit_eps_ee_min = eps_ee_min;
+    handles.eps_min(1) = eps_ee_min;
     guidata(hObject,handles)
 
 end
@@ -271,7 +285,7 @@ function edit_eps_ee_max_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.edit_eps_ee_max = eps_ee_max;
+    handles.eps_max(1) = eps_ee_max;
     guidata(hObject,handles)
 
 end
@@ -284,7 +298,7 @@ function edit_eps_ee_inc_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.edit_eps_ee_inc = eps_ee_inc;
+    handles.eps_inc(1) = eps_ee_inc;
     guidata(hObject,handles)
 
 end
@@ -297,7 +311,7 @@ function eps_ee_nsi_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.eps_ee_nsi = eps_ee_nsi;
+    handles.eps_nsi(1) = eps_ee_nsi;
     guidata(hObject,handles)
 
 end
@@ -310,7 +324,7 @@ function eps_et_nsi_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.eps_et_nsi = eps_et_nsi;
+    handles.eps_nsi(2) = eps_et_nsi;
     guidata(hObject,handles)
 
 end
@@ -323,7 +337,7 @@ function eps_tt_nsi_Callback(hObject, eventdata, handles)
         errordlg('Input must be a number','Error');
     end
 
-    handles.eps_tt_nsi = eps_tt_nsi;
+    handles.eps_nsi(3) = eps_tt_nsi;
     guidata(hObject,handles)
     
 end
@@ -413,6 +427,9 @@ end
 % Probability: Muon - Electron
 function M_E_NSI_Probability_Callback(hObject, eventdata, handles)
 
+% Set isRange for Plotting
+handles.isRange = 0;
+
 % Set Event Rate and Experiment Parameters
 handles.isEventRate = 0;
 handles.experiment = 0;
@@ -429,6 +446,9 @@ end
 
 % --- Event Rate: MINOS
 function button_minos_flux_Callback(hObject, eventdata, handles)
+
+% Set isRange for Plotting
+handles.isRange = 0;
 
 % Set Event Rate and Experiment Parameters
 handles.isEventRate = 1;
@@ -447,6 +467,9 @@ end
 % --- Event Rate: NOVA
 function button_event_rate_nova_Callback(hObject, eventdata, handles)
 
+% Set isRange for Plotting
+handles.isRange = 0;
+
 % Set Event Rate and Experiment Parameters
 handles.isEventRate = 1;
 handles.experiment = 0;
@@ -461,77 +484,65 @@ mainFunc(hObject,handles);
 
 end
 
-
-% --- Probability Eps_tt Range
-function Eps_tt_Callback(hObject, eventdata, handles)
-
-wb=waitbar(0,'');
-axes(handles.axes1);
-
-handles.check_par =  M_E_Range_Eps_tt(...
-    handles.distance,...
-    handles.dirac_delta,...
-    handles.NSI_delta,...
-    handles.h1,handles.t1,...
-    handles.eps_et_nsi,...
-    handles.eps_ee_nsi,...
-    handles.edit_eps_tt_min,...
-    handles.edit_eps_tt_max,...
-    handles.edit_eps_tt_inc,...
-    wb);
-
-close(wb);
-
-GUI_Parameters(handles.check_par);
-end
-
 % --- Probability Eps_ee Range
 function Eps_ee_Callback(hObject, eventdata, handles)
 
-wb=waitbar(0,'');
-axes(handles.axes1);
-handles.check_par = M_E_Range_Eps_ee(...
-    handles.distance,...
-    handles.dirac_delta,...
-    handles.NSI_delta,...
-    handles.h1,handles.t1,...
-    handles.eps_et_nsi,...
-    handles.edit_eps_ee_min,...
-    handles.edit_eps_ee_max,...
-    handles.edit_eps_ee_inc,...
-    handles.eps_tt_nsi,...
-    wb);
+% Set isRange for Plotting
+handles.isRange = 1;
+handles.rangeEps = 1;
 
-close(wb);
+% Set Event Rate and Experiment Parameters
+handles.isEventRate = 0;
+handles.experiment = 0;
 
-GUI_Parameters(handles.check_par);
+
+% Update handles 
+guidata(hObject,handles);
+
+% Call Main Funct
+mainFunc(hObject,handles);
+
 end
 
 % --- Probability Eps_et Range
 function Eps_et_Callback(hObject, eventdata, handles)
 
-wb=waitbar(0,'');
-axes(handles.axes1);
-handles.check_par = M_E_Range_Eps_et(...
-    handles.distance,...
-    handles.dirac_delta,...
-    handles.NSI_delta,...
-    handles.h1,...
-    handles.t1,...
-    handles.edit_eps_et_min,...
-    handles.edit_eps_et_max,...
-    handles.edit_eps_et_inc,...
-    handles.eps_ee_nsi,...
-    handles.eps_tt_nsi,...
-    wb);
-close(wb);
+% Set isRange for Plotting
+handles.isRange = 1;
+handles.rangeEps = 2;
 
-GUI_Parameters(handles.check_par);
+% Set Event Rate and Experiment Parameters
+handles.isEventRate = 0;
+handles.experiment = 0;
+
+
+% Update handles 
+guidata(hObject,handles);
+
+% Call Main Funct
+mainFunc(hObject,handles);
 
 end
 
+% --- Probability Eps_tt Range
+function Eps_tt_Callback(hObject, eventdata, handles)
+
+% Set isRange for Plotting
+handles.isRange = 1;
+handles.rangeEps = 3;
+
+% Set Event Rate and Experiment Parameters
+handles.isEventRate = 0;
+handles.experiment = 0;
 
 
+% Update handles 
+guidata(hObject,handles);
+
+% Call Main Funct
+mainFunc(hObject,handles);
+
+end
 
 % --- Hold On Button for Plots
 function toogglebutton_hold_button_Callback(hObject, eventdata, handles)

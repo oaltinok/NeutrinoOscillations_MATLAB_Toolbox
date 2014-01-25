@@ -22,7 +22,7 @@ function varargout = GUI_Parameters(varargin)
 
 % Edit the above text to modify the response to help GUI_Parameters
 
-% Last Modified by GUIDE v2.5 20-Sep-2012 15:51:53
+% Last Modified by GUIDE v2.5 25-Jan-2014 14:52:26
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -67,8 +67,9 @@ set(handles.text_ve, 'String', handles.check_par{5});
 set(handles.text_d_delta, 'String', handles.check_par{6});
 set(handles.text_nsi_delta, 'String', handles.check_par{7});
     
-set(handles.text_eps_et, 'String', handles.check_par{8});
-set(handles.text_eps_ee, 'String', handles.check_par{9});
+
+set(handles.text_eps_ee, 'String', handles.check_par{8});
+set(handles.text_eps_et, 'String', handles.check_par{9});
 set(handles.text_eps_tt, 'String', handles.check_par{10});
 
 set(handles.text_distance, 'String', handles.check_par{11});
