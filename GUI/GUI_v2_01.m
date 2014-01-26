@@ -423,6 +423,9 @@ wb = waitbar(0,'');
 % Create Axes
 axes(handles.axes1);
 
+% Create Legend
+handles.legend1 = legend(handles.axes1,'off');
+
 % Control Plot Color if Hold ON Pressed
 if handles.color_check == 1
     if handles.color_indice < handles.color_indice_max
@@ -438,6 +441,9 @@ end
 handles.check_par = Plot_Request(...
     handles,...
     wb);
+
+handles.legend1 = legend(handles.axes1,'show');
+set(handles.legend1,'Interpreter','latex','FontSize',12);
 
 
 % Close Waitbar

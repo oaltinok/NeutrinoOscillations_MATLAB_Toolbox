@@ -59,11 +59,7 @@ waitbar(0.5,wb,'Making Calculations')
 [DELTA_m31_sq, labels] = setMassHierarchy(handles.h1,DELTA_m31_sq,labels);
 
 % Particle Type:  Neutrino = 1, Anti-Neutrino = 0
-[ve, delta, delta_m, labels] = setType(...
-    handles.t1,...
-    handles.dirac_delta,...
-    handles.NSI_delta,...
-    labels);
+[ve, delta, delta_m, labels] = setType(handles, labels);
 
 
 %% Calculate the Probability
@@ -93,7 +89,7 @@ if handles.isRange == 1
         
         yMatrix(ii,:) = Probability;
         
-        labels{5}{ii} = sprintf('\\epsilon_%s = %3.2f',...
+        labels{5}{ii} = sprintf('$\\epsilon_%s = %3.2f $',...
             epsLabel{handles.rangeEps},eps(handles.rangeEps));
         
         ii = ii + 1;
@@ -154,19 +150,18 @@ end
 function plotRange(xVector,yMatrix, labels)
     
     colormap('Jet')
-    plot1=plot(xVector,yMatrix);
+    plot1 = plot(xVector,yMatrix);
     xlim([0.4 8])
-    %     ylim([0 1.0])
-    xlabel('Energy[GeV]')
-    ylabel(labels{1,3})
+    xlabel('Energy[GeV]','FontWeight','bold')
+    ylabel(labels{1,3},'FontWeight','bold')
     
    
     % Create legend
-    for kk=1:length(labels{5})
+    for kk = 1:length(labels{5})
         set(plot1(kk),'DisplayName',labels{5}{kk});
     end
     
-    legend1 = legend('show');
+%     legend1 = legend('show');
 
 end
 
@@ -175,15 +170,15 @@ function plotSingle(xVector, yVector, Plot_Color, labels)
 
     plot1 = plot(xVector,yVector,Plot_Color);
     xlim([0.7 10])
-    xlabel('Energy[GeV]')
-    ylabel(labels{1,3})
+    xlabel('Energy[GeV]','FontWeight','bold')
+    ylabel(labels{1,3},'FontWeight','bold')
     
     % Create legend with using User Input
     legend_plot = sprintf('%s, %s',labels{1,2}, labels{1,1});
     set(plot1,'DisplayName',legend_plot);
     
-    legend1 = legend('show');
-    set(legend1,'Interpreter','latex','FontSize',12);
+%     legend1 = legend('show');
+%     set(legend1,'Interpreter','latex','FontSize',12);
     
 end
 
@@ -266,23 +261,30 @@ end
 end
 
 
-function [ve, delta, delta_m, labels] = setType(...
-    t,...
-    dirac_delta,...
-    NSI_delta,...
-    labels)
+function [ve, delta, delta_m, labels] = setType(handles, labels)
 
 % Particle Type:  Neutrino = 1, Anti-Neutrino = 0
-if t == 1
+if handles.t1 == 1
     ve = 1/1900;
-    delta = dirac_delta;
-    delta_m = NSI_delta;
-    labels{1,2} = sprintf('$\\mathcal{P}(\\nu_{\\mu} \\rightarrow \\nu_{\\mu})$');
+    delta = handles.dirac_delta;
+    delta_m = handles.NSI_delta;
+    
+    if handles.isEventRate
+        labels{1,2} = sprintf('$N(\\nu_{\\mu} \\rightarrow \\nu_{e})$');
+    else
+        labels{1,2} = sprintf('$\\mathcal{P}(\\nu_{\\mu} \\rightarrow \\nu_{e})$');
+    end
 else
     ve = -1/1900;
-    delta = -1 * dirac_delta;
-    delta_m = -1 * NSI_delta;
-    labels{1,2} = sprintf('$\\mathcal{P}(\\bar{\\nu}_{\\mu} \\rightarrow \\bar{\\nu}_{\\mu})$');
+    delta = -1 * handles.dirac_delta;
+    delta_m = -1 * handles.NSI_delta;
+    
+    if handles.isEventRate
+        labels{1,2} = sprintf('$N(\\bar{\\nu}_{\\mu} \\rightarrow \\bar{\\nu}_{e})$');
+    else
+        labels{1,2} = sprintf('$\\mathcal{P}(\\bar{\\nu}_{\\mu} \\rightarrow \\bar{\\nu}_{e})$');
+    end
+    
 end
 
 end
@@ -310,7 +312,7 @@ if handles.isEventRate == 1
     yVector = N_Neutrinos;
     
     % Set y-axis Label
-    labels{1,3} = 'Event Rate';
+    labels{1,3} = 'Event Rate = CC Events / kt / 1E20POT / 0.2GeV';
     
 else
     

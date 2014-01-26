@@ -1,6 +1,11 @@
 Version Changes:
 __________________________________________________________________
-v1_1
+v1_22
+- Plot Legend Improved
+- Legend now works correctly with Hold ON button
+- Legend labelling improved P for Probability, N for Event Rate
+__________________________________________________________________
+v1_21
 - GUI 2_00 Implemented
 __________________________________________________________________
 v1_20
