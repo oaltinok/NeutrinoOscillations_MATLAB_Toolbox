@@ -1,7 +1,9 @@
-function [rho] = get_density(truel)
-% This function calculates the density for the corresponding distance
+function [rho] = Get_Density(truel)
+%% This function calculates the earth density for the corresponding distance
+% Current function is a crude estimate of Earth's Density
+% Function name reserved for a better Density estimate Function
 
-pathl=[500, 1500, 3500, 10600, 11200, 12800];
+pathl=[100, 1500, 3500, 10600, 11200, 12800];
 rhol=[2.3, 3.2, 3.35, 5.0, 6.3, 8.6];
 
 for i=2:6

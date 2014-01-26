@@ -1,5 +1,11 @@
 Version Changes:
 __________________________________________________________________
+v2_00
+- GUI Designed improved for a better user interface
+- Detector Efficiency can be edited by user
+- Error Dialogs added for Epsilon Range Plots
+- Minimum Accepted Distance now 100km (for shorter Experiments)
+__________________________________________________________________
 v1_09
 - Function Improved with Modular Design
 - Easier to read and modify

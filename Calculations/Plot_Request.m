@@ -12,13 +12,8 @@ function [check_par] = Plot_Request(...
 %       finalStateParticle = 1 for Electron (Muon to Electron)
 %       finalStateParticle = 0 for Muon (Muon to Muon)
 %
-% For the Event Calculation Function uses in addition to 
-% Probability Calculations:
-% 1) Reads Flux Files and sets the distance parameter specific to the Experiment
-%       experiment = 1 for MINOS
-%       experiment = 0 for NOVA
-% 2) Calculates expected number of Neutrinos using Flux Values and Detector
-% Efficiency
+% For the Event Calculation Function Calculates expected number of 
+% Neutrinos using Flux Values and Detector Efficiency
 
 %% Assign Parameters for Calculations
 % New Variable Naming
@@ -74,17 +69,32 @@ waitbar(0.5,wb,'Making Calculations')
 %% Calculate the Probability
 if handles.isRange == 1
     
+    epsLabel = get_epsLabel();
+    
     ii = 1;
+    
+    if handles.eps_min(handles.rangeEps) >= handles.eps_max(handles.rangeEps)
+        errordlg('Epsilon MIN >= Epsilon MAX','Error');
+        return;
+    elseif handles.eps_inc(handles.rangeEps) >= ...
+            (handles.eps_max(handles.rangeEps) - handles.eps_min(handles.rangeEps) )
+        errordlg('Epsilon INC >= (Epsilon MAX - Epsilon MIN)','Error');
+        return;
+ 
+    end
     
     eps(handles.rangeEps) = handles.eps_max(handles.rangeEps);
     
-    while (eps(handles.rangeEps) >= (handles.eps_min(handles.rangeEps)-0.05))
+    
+    
+    while (eps(handles.rangeEps) >= (handles.eps_min(handles.rangeEps)))
         
         M_E_Probability_Calculations;
         
         yMatrix(ii,:) = Probability;
         
-        labels{5}{ii} = sprintf('\\epsilon_{ee} = %2.1f', eps(handles.rangeEps));
+        labels{5}{ii} = sprintf('\\epsilon_%s = %3.2f',...
+            epsLabel{handles.rangeEps},eps(handles.rangeEps));
         
         ii = ii + 1;
         
@@ -131,6 +141,15 @@ end
 
 end
 
+
+function eps_label = get_epsLabel()
+
+eps_label = cell(1,3);
+eps_label{1} = '{ee}';
+eps_label{2} = '{et}';
+eps_label{3} = '{tt}';
+
+end
 
 function plotRange(xVector,yMatrix, labels)
     
@@ -278,13 +297,12 @@ function [yVector, check_par, labels ] = setFinalSettings(...
 if handles.isEventRate == 1
     
     % Find expected number of Neutrinos using Flux Values and Detector Efficiency
-    efficiency = 0.69;
-   
+    
     if handles.experiment == 1
-        N_Neutrinos = Probability .* handles.n_nu_mu_10_MINOS .* efficiency;
+        N_Neutrinos = Probability .* handles.n_nu_mu_10_MINOS .* handles.det_eff;
         check_par{12} = 'Warning! Default Distance 735km'; % Message to be shown on the output
     else
-        N_Neutrinos = Probability .* handles.n_nu_mu_10_NOVA .* efficiency;
+        N_Neutrinos = Probability .* handles.n_nu_mu_10_NOVA .* handles.det_eff;
         check_par{12} = 'Warning! Default Distance 810km'; % Message to be shown on the output
     end
  

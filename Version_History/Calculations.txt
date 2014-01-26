@@ -1,5 +1,8 @@
 Version Changes:
 __________________________________________________________________
+v1_1
+- GUI 2_00 Implemented
+__________________________________________________________________
 v1_20
 - Epsilon Range Function Revised 
 	- Epsilon Range Plotting combined with other button Calls
