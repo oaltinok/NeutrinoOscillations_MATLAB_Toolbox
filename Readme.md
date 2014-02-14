@@ -9,10 +9,21 @@ Collaborators: Prof. Anthony Mann (Theory)
 
 Technologies: MATLAB, MATLAB GUIDE
 
-Usage 
+Setup
 -------
 Install Application using Neutrino Oscillations.mlappinstall
 
-From Source: 
+Running From Source: 
 
 Run Neutrino_Oscillation.m function. It will add necessary directories and runs the latest version of the GUI.
+
+Usage
+-------
+1) Set Parameters
+
+2) Press Button:
+
+    a) For Probability: "Muon-Electron"
+    b) For Event Rate: "MINOS" or "NOVA"
+    c) For Probability with Epsilon Variation: Use the "Plot" Buttons on the right side
+
