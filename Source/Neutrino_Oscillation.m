@@ -1,3 +1,4 @@
+function Neutrino_Oscillation()
 %% Main Script For Toolbox
 % Adds Folder Paths for Calculation and GUI scripts
 % Calls GUI Function
@@ -8,3 +9,4 @@ addpath(genpath('GUI'));
 
 %% Call GUI Function
 GUI_v2_01;
+end
