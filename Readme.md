@@ -9,6 +9,10 @@ Collaborators: Prof. Anthony Mann (Theory)
 
 Technologies: MATLAB, MATLAB GUIDE
 
-Usage
+Usage 
 -------
+Install Application using Neutrino Oscillations.mlappinstall
+
+From Source: 
+
 Run Neutrino_Oscillation.m function. It will add necessary directories and runs the latest version of the GUI.
