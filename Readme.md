@@ -11,6 +11,7 @@ Technologies: MATLAB, MATLAB GUIDE
 ## Setup
 
 #### MATLAB Application
+* MATLAB Central page: http://www.mathworks.com/matlabcentral/fileexchange/45551-neutrino-oscillations
 * Install Application using Neutrino Oscillations.mlappinstall
 * From Application List run "Neutrino Oscillations"
 
