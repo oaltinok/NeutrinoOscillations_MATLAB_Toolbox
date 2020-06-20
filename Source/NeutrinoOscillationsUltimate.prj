@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="3731937008" file="C:\Users\oaltinok\Documents\GitHub\NeutrinoOscillations_MATLAB_Toolbox\NeutrinoOscillationsUltimate.prj" location="C:\Users\oaltinok\Documents\GitHub\NeutrinoOscillations_MATLAB_Toolbox" name="NeutrinoOscillationsUltimate" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="1071231337" file="C:\Users\oaltinok\Documents\GitHub\NeutrinoOscillations_MATLAB_Toolbox\Source\NeutrinoOscillationsUltimate.prj" location="C:\Users\oaltinok\Documents\GitHub\NeutrinoOscillations_MATLAB_Toolbox\Source" name="NeutrinoOscillationsUltimate" target="target.mlapps" target-name="Package App">
     <param.appname>NeutrinoOscillationsUltimate</param.appname>
     <param.authnamewatermark>Ozgur Altinok</param.authnamewatermark>
     <param.email>ozgur.altinok@tufts.edu</param.email>
@@ -7,26 +7,23 @@
     <param.icon />
     <param.icons />
     <param.summary />
-    <param.description />
-    <param.screenshot>C:\Users\oaltinok\AppData\Local\Temp\tp845646fb_205d_40b1_b18f_72c5850e08b3.png</param.screenshot>
-    <param.version>1.0</param.version>
+    <param.description>Theory: Anthony Mann</param.description>
+    <param.screenshot>C:\Users\oaltinok\AppData\Local\Temp\tp7ecc2445_583a_48b3_8070_a2c6f439bbaa.png</param.screenshot>
+    <param.version>1.2</param.version>
     <param.products.name />
     <param.products.id />
     <param.products.version />
     <param.platforms />
-    <param.output>${PROJECT_ROOT}</param.output>
+    <param.output>C:\Users\oaltinok\Documents\GitHub\NeutrinoOscillations_MATLAB_Toolbox</param.output>
     <param.guid>dbee4020-7ca6-4c10-b2fa-1029a437f475</param.guid>
     <unset>
       <param.icon />
       <param.icons />
       <param.summary />
-      <param.description />
-      <param.version />
       <param.products.name />
       <param.products.id />
       <param.products.version />
       <param.platforms />
-      <param.output />
     </unset>
     <fileset.main>
       <file>${PROJECT_ROOT}\NeutrinoOscillationsUltimate.mlapp</file>
