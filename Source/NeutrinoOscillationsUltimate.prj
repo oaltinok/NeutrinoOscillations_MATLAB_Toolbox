@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="3543696502" file="C:\Users\oaltinok\Documents\GitHub\NeutrinoOscillations_MATLAB_Toolbox\Source\NeutrinoOscillationsUltimate.prj" location="C:\Users\oaltinok\Documents\GitHub\NeutrinoOscillations_MATLAB_Toolbox\Source" name="NeutrinoOscillationsUltimate" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="1013065337" file="C:\Users\oaltinok\Documents\GitHub\NeutrinoOscillations_MATLAB_Toolbox\Source\NeutrinoOscillationsUltimate.prj" location="C:\Users\oaltinok\Documents\GitHub\NeutrinoOscillations_MATLAB_Toolbox\Source" name="NeutrinoOscillationsUltimate" target="target.mlapps" target-name="Package App">
     <param.appname>NeutrinoOscillationsUltimate</param.appname>
     <param.authnamewatermark>Ozgur Altinok</param.authnamewatermark>
     <param.email>ozgur.altinok@tufts.edu</param.email>
@@ -8,8 +8,8 @@
     <param.icons />
     <param.summary />
     <param.description>Theory: Anthony Mann</param.description>
-    <param.screenshot>C:\Users\oaltinok\AppData\Local\Temp\tp86d3511d_7c05_4a33_ad4b_f462875ff035.png</param.screenshot>
-    <param.version>1.3</param.version>
+    <param.screenshot>C:\Users\oaltinok\AppData\Local\Temp\tp3983de83_33ae_499c_8f86_ed6d0fc6b670.png</param.screenshot>
+    <param.version>1.4</param.version>
     <param.products.name />
     <param.products.id />
     <param.products.version />
